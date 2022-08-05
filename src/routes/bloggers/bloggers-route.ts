@@ -1,3 +1,4 @@
+import { authBasic } from "./../../middlwares/aurh/basic-auth-middlware";
 import { bloggerService } from "./../../services/blogger-service/index";
 import {
   isValidBlogger,
@@ -9,6 +10,7 @@ export const bloggersRouter = Router({});
 
 bloggersRouter.post(
   "/",
+  authBasic,
   isValidBlogger,
   bloggerInputValidator,
   async (req: Request, res: Response) => {
@@ -33,16 +35,22 @@ bloggersRouter.get("/:bloggerId", async (req: Request, res: Response) => {
   if (!singleBlogger) return res.sendStatus(404);
   return res.status(200).json(singleBlogger);
 });
-bloggersRouter.delete("/:bloggerId", async (req: Request, res: Response) => {
-  const { bloggerId } = req.params;
-  const deleteBlogger = await bloggerService.deleteSingleBlogger(bloggerId);
-  if (!deleteBlogger) return res.sendStatus(404);
-  return res.sendStatus(204);
-});
+bloggersRouter.delete(
+  "/:bloggerId",
+  authBasic,
+  async (req: Request, res: Response) => {
+    const { bloggerId } = req.params;
+    const deleteBlogger = await bloggerService.deleteSingleBlogger(bloggerId);
+    if (!deleteBlogger) return res.sendStatus(404);
+    return res.sendStatus(204);
+  }
+);
 bloggersRouter.put(
   "/:bloggerId",
+  authBasic,
   isValidBlogger,
   bloggerInputValidator,
+
   async (req: Request, res: Response) => {
     const { bloggerId } = req.params;
     const { name, youtubeUrl } = req.body;

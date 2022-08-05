@@ -7,11 +7,13 @@ import {
 } from "./../../middlwares/posts-midleware/index";
 import { Request, Response, Router } from "express";
 import { postsService } from "../../services/posts-service";
+import { authBasic } from "../../middlwares/aurh/basic-auth-middlware";
 
 export const postsRouter = Router({});
 
 postsRouter.post(
   "/",
+  authBasic,
   isValidPost,
   postInputValidator,
   isBloggerExist,
@@ -41,6 +43,7 @@ postsRouter.get("/:postId", async (req: Request, res: Response) => {
 
 postsRouter.put(
   "/:postId",
+  authBasic,
   isValidPost,
   postInputValidator,
   isBloggerExist,
@@ -59,9 +62,13 @@ postsRouter.put(
     return res.sendStatus(204);
   }
 );
-postsRouter.delete("/:postId", async (req: Request, res: Response) => {
-  const { postId } = req.params;
-  const result = await postsService.deletePost(postId);
-  if (!result) return res.sendStatus(404);
-  return res.sendStatus(204);
-});
+postsRouter.delete(
+  "/:postId",
+  authBasic,
+  async (req: Request, res: Response) => {
+    const { postId } = req.params;
+    const result = await postsService.deletePost(postId);
+    if (!result) return res.sendStatus(404);
+    return res.sendStatus(204);
+  }
+);
