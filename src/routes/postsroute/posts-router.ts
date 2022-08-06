@@ -31,7 +31,8 @@ postsRouter.post(
   }
 );
 postsRouter.get("/", async (req: Request, res: Response) => {
-  const getAllPosts = await postsService.getAllPosts();
+  const query = req.query;
+  const getAllPosts = await postsService.getAllPosts(query);
   return res.status(200).json(getAllPosts);
 });
 postsRouter.get("/:postId", async (req: Request, res: Response) => {

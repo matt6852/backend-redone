@@ -39,6 +39,24 @@ export const isValidPost = [
     .bail(),
   body("bloggerId").not().isEmpty().bail(),
 ];
+export const isValidPostForSingleBlogger = [
+  body("title").isString().isLength({ max: 30 }).trim().not().isEmpty().bail(),
+  body("shortDescription")
+    .isString()
+    .isLength({ max: 100 })
+    .trim()
+    .not()
+    .isEmpty()
+    .bail(),
+  body("content")
+    .isString()
+    .isLength({ max: 1000 })
+    .trim()
+    .not()
+    .isEmpty()
+    .bail(),
+  // body("bloggerId").not().isEmpty().bail(),
+];
 
 export const isBloggerExist = async (
   req: Request,

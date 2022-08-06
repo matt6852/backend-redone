@@ -12,12 +12,46 @@ export const postsRepository = {
       return null;
     }
   },
-  async getAllPostsFromDb() {
+  async getAllPostsFromDb(query: any) {
+    const { PageNumber = 1, PageSize = 10 } = query;
     try {
       const allPosts = await postsCollection
         .find({}, { projection: { _id: 0 } })
+        .skip(+PageSize * (+PageNumber! - 1))
+        .limit(+PageSize)
         .toArray();
-      return allPosts;
+      const totalCount = await postsCollection.countDocuments({});
+      const result = {
+        pagesCount: Math.ceil(+totalCount / PageSize!),
+        page: PageNumber,
+        pageSize: PageSize,
+        totalCount,
+        items: allPosts,
+      };
+      return result;
+    } catch (error) {
+      return null;
+    }
+  },
+  async getAllBloggersPostsFromDb(bloggerId: string, query: any) {
+    const { PageNumber = 1, PageSize = 10 } = query;
+
+    try {
+      const allBloggerPosts = await postsCollection
+        .find({ bloggerId }, { projection: { _id: 0 } })
+        .skip(+PageSize * (+PageNumber - 1))
+        .limit(+PageSize)
+        .toArray();
+      const totalCount = await postsCollection.countDocuments({
+        bloggerId,
+      });
+      return {
+        pagesCount: Math.ceil(+totalCount / PageSize!),
+        page: PageNumber,
+        pageSize: PageSize,
+        totalCount,
+        items: allBloggerPosts,
+      };
     } catch (error) {
       return null;
     }

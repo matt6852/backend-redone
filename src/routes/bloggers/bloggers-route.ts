@@ -1,3 +1,14 @@
+import { type } from "os";
+import {
+  isValidPost,
+  isValidPostForSingleBlogger,
+  postInputValidator,
+} from "./../../middlwares/posts-midleware/index";
+import { postsService } from "./../../services/posts-service/index";
+import {
+  BloggerType,
+  BloggerTypeofDb as BloggerTypeofDb,
+} from "./../../types/bloggersTypes";
 import { authBasic } from "./../../middlwares/aurh/basic-auth-middlware";
 import { bloggerService } from "./../../services/blogger-service/index";
 import {
@@ -5,6 +16,7 @@ import {
   bloggerInputValidator,
 } from "./../../middlwares/bloggers-middlware/index";
 import { Request, Response, Router } from "express";
+import { WithId } from "mongodb";
 
 export const bloggersRouter = Router({});
 
@@ -26,7 +38,8 @@ bloggersRouter.post(
   }
 );
 bloggersRouter.get("/", async (req: Request, res: Response) => {
-  const allBloggers = await bloggerService.getAllBloggers();
+  const query = req.query ?? null;
+  const allBloggers = await bloggerService.getAllBloggers(query);
   res.status(200).json(allBloggers);
 });
 bloggersRouter.get("/:bloggerId", async (req: Request, res: Response) => {
@@ -34,6 +47,17 @@ bloggersRouter.get("/:bloggerId", async (req: Request, res: Response) => {
   const singleBlogger = await bloggerService.getSingleBlogger(bloggerId);
   if (!singleBlogger) return res.sendStatus(404);
   return res.status(200).json(singleBlogger);
+});
+bloggersRouter.get("/:bloggerId/posts", async (req: Request, res: Response) => {
+  const query = req.query;
+  const { bloggerId } = req.params;
+  const singleBlogger = await bloggerService.getSingleBlogger(bloggerId);
+  if (!singleBlogger) return res.sendStatus(404);
+  const postsForBlogger = await postsService.getAllBloggerPosts(
+    bloggerId,
+    query
+  );
+  return res.status(200).json(postsForBlogger);
 });
 bloggersRouter.delete(
   "/:bloggerId",
@@ -50,7 +74,6 @@ bloggersRouter.put(
   authBasic,
   isValidBlogger,
   bloggerInputValidator,
-
   async (req: Request, res: Response) => {
     const { bloggerId } = req.params;
     const { name, youtubeUrl } = req.body;
@@ -64,3 +87,30 @@ bloggersRouter.put(
     return res.sendStatus(204);
   }
 );
+bloggersRouter.post(
+  "/:bloggerId/posts",
+  authBasic,
+  isValidPostForSingleBlogger,
+  postInputValidator,
+  async (req: Request, res: Response) => {
+    const { bloggerId } = req.params;
+    const singleBlogger = await bloggerService.getSingleBlogger(bloggerId);
+    if (!singleBlogger) return res.sendStatus(404);
+    const newPost = {
+      title: req.body.title,
+      shortDescription: req.body.shortDescription,
+      content: req.body.content,
+      bloggerId,
+      bloggerName: singleBlogger.name,
+    };
+    const result = await postsService.createPost(newPost);
+    if (!result?.id) return res.sendStatus(400);
+    return res.status(201).json(newPost);
+  }
+);
+
+export type Query = {
+  SearchNameTerm: string | undefined;
+  PageNumber: number | undefined;
+  PageSize: number | undefined;
+};

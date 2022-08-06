@@ -12,8 +12,15 @@ export const postsService = {
     const result = await postsRepository.createPost(postForDb);
     return result;
   },
-  async getAllPosts() {
-    const allPosts = await postsRepository.getAllPostsFromDb();
+  async getAllPosts(query: any) {
+    const allPosts = await postsRepository.getAllPostsFromDb(query);
+    return allPosts;
+  },
+  async getAllBloggerPosts(bloggerId: string, query: any) {
+    const allPosts = await postsRepository.getAllBloggersPostsFromDb(
+      bloggerId,
+      query
+    );
     return allPosts;
   },
   async getSinglePost(postId: string) {

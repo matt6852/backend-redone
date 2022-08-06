@@ -1,14 +1,15 @@
 import { bloggerRepository } from "./../../repositories/bloggers-repository";
-import { BloggerType, BloggerTypeforDb } from "./../../types/bloggersTypes";
+import { BloggerType, BloggerTypeofDb } from "./../../types/bloggersTypes";
 import { v4 as uuidv4 } from "uuid";
+import { Query } from "../../routes/bloggers/bloggers-route";
 export const bloggerService = {
   async createBlogger(blogger: BloggerType) {
     const newBlogger = { ...blogger, id: uuidv4() };
     const result = await bloggerRepository.createBlogger(newBlogger);
     return result;
   },
-  async getAllBloggers() {
-    const allBloggers = await bloggerRepository.getAllBloggerFromDB();
+  async getAllBloggers(query: any) {
+    const allBloggers = await bloggerRepository.getAllBloggerFromDB(query);
     return allBloggers;
   },
   async getSingleBlogger(bloggerId: any) {
@@ -23,7 +24,7 @@ export const bloggerService = {
     );
     return deleteBlogger;
   },
-  async updateBlogger(updateBlogger: BloggerTypeforDb) {
+  async updateBlogger(updateBlogger: BloggerTypeofDb) {
     const updatedBlogger = await bloggerRepository.updateSingleBloggerFromDB(
       updateBlogger
     );

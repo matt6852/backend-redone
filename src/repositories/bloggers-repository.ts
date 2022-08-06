@@ -1,9 +1,10 @@
-import { BloggerTypeforDb } from "./../types/bloggersTypes";
+import { BloggerTypeofDb } from "./../types/bloggersTypes";
 import { bloggersCollection } from "../db";
 import { BloggerType } from "../types/bloggersTypes";
+import { Query } from "../routes/bloggers/bloggers-route";
 
 export const bloggerRepository = {
-  async createBlogger(blogger: BloggerTypeforDb) {
+  async createBlogger(blogger: BloggerTypeofDb) {
     try {
       await bloggersCollection.insertOne(blogger, {
         forceServerObjectId: true,
@@ -13,12 +14,27 @@ export const bloggerRepository = {
       return null;
     }
   },
-  async getAllBloggerFromDB() {
+  async getAllBloggerFromDB(query: Query) {
+    const { SearchNameTerm, PageNumber = 1, PageSize = 10 } = query;
+    const searchQuery: any = {};
+    if (SearchNameTerm) {
+      searchQuery.name = { $regex: SearchNameTerm };
+    }
     try {
       const allBloggers = await bloggersCollection
-        .find({}, { projection: { _id: 0 } })
+        .find(searchQuery, { projection: { _id: 0 } })
+        .skip(+PageSize * (+PageNumber - 1))
+        .limit(+PageSize)
         .toArray();
-      return allBloggers;
+      const totalCount = await bloggersCollection.countDocuments(searchQuery);
+      const result = {
+        pagesCount: Math.ceil(+totalCount / +PageSize),
+        page: +PageNumber,
+        pageSize: +PageSize,
+        totalCount,
+        items: allBloggers,
+      };
+      return result;
     } catch (error) {
       return null;
     }
@@ -43,7 +59,7 @@ export const bloggerRepository = {
       return null;
     }
   },
-  async updateSingleBloggerFromDB(updateBlogger: BloggerTypeforDb) {
+  async updateSingleBloggerFromDB(updateBlogger: BloggerTypeofDb) {
     try {
       const result = await bloggersCollection.findOneAndUpdate(
         { id: updateBlogger.id },
