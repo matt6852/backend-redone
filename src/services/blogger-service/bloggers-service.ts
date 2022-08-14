@@ -1,5 +1,5 @@
-import { bloggerRepository } from "./../../repositories/bloggers-repository";
-import { BloggerType, BloggerTypeofDb } from "./../../types/bloggersTypes";
+import { bloggerRepository } from "../../repositories/bloggers-repository";
+import { BloggerType, BloggerTypeofDb } from "../../types/bloggersTypes";
 import { v4 as uuidv4 } from "uuid";
 import { Query } from "../../routes/bloggers/bloggers-route";
 export const bloggerService = {

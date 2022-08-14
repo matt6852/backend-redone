@@ -1,4 +1,3 @@
-import { type } from "os";
 import { NextFunction, Request, Response } from "express";
 
 export const authBasic = async (

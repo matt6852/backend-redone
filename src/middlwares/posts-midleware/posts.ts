@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { body, check, validationResult } from "express-validator";
-import { bloggerService } from "../../services/blogger-service";
+import { bloggerService } from "../../services/blogger-service/bloggers-service";
 
 export const postInputValidator = (
   req: Request,

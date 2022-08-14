@@ -3,18 +3,18 @@ import {
   isValidPost,
   isValidPostForSingleBlogger,
   postInputValidator,
-} from "./../../middlwares/posts-midleware/index";
-import { postsService } from "./../../services/posts-service/index";
+} from "../../middlwares/posts-midleware/posts";
+import { postsService } from "../../services/posts-service/posts-service";
 import {
   BloggerType,
   BloggerTypeofDb as BloggerTypeofDb,
 } from "./../../types/bloggersTypes";
-import { authBasic } from "./../../middlwares/aurh/basic-auth-middlware";
-import { bloggerService } from "./../../services/blogger-service/index";
+import { authBasic } from "../../middlwares/auth/basic-auth-middlware";
+import { bloggerService } from "../../services/blogger-service/bloggers-service";
 import {
   isValidBlogger,
   bloggerInputValidator,
-} from "./../../middlwares/bloggers-middlware/index";
+} from "../../middlwares/bloggers-middlware/bloggers";
 import { Request, Response, Router } from "express";
 import { WithId } from "mongodb";
 

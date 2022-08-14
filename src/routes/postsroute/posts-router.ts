@@ -1,13 +1,18 @@
-import { body } from "express-validator";
-import { bloggerService } from "./../../services/blogger-service/index";
+import {
+  commentInputValidator,
+  isValidComment,
+} from "./../../middlwares/comments-middleware/comments";
+
 import {
   isBloggerExist,
   isValidPost,
   postInputValidator,
-} from "./../../middlwares/posts-midleware/index";
+} from "../../middlwares/posts-midleware/posts";
 import { Request, Response, Router } from "express";
-import { postsService } from "../../services/posts-service";
-import { authBasic } from "../../middlwares/aurh/basic-auth-middlware";
+import { postsService } from "../../services/posts-service/posts-service";
+import { authBasic } from "../../middlwares/auth/basic-auth-middlware";
+import { jwtAuthMiddleware } from "../../middlwares/auth/jwt-auth-middlware";
+import { commentsService } from "../../services/comments-service/comments-service";
 
 export const postsRouter = Router({});
 
@@ -71,5 +76,36 @@ postsRouter.delete(
     const result = await postsService.deletePost(postId);
     if (!result) return res.sendStatus(404);
     return res.sendStatus(204);
+  }
+);
+
+postsRouter.get("/:postId/comments", async (req: Request, res: Response) => {
+  const { postId } = req.params;
+  const query = req.query;
+  const singlePost = await postsService.getSinglePost(postId);
+  if (!singlePost) return res.sendStatus(404);
+  const result = await commentsService.getComments(postId, query);
+  res.send(result);
+});
+postsRouter.post(
+  "/:postId/comments",
+  jwtAuthMiddleware,
+  isValidComment,
+  commentInputValidator,
+  async (req: Request, res: Response) => {
+    const { postId } = req.params;
+    const { content } = req.body;
+    const user = req.user;
+    const singlePost = await postsService.getSinglePost(postId);
+    if (!singlePost) return res.sendStatus(404);
+    const newComment = {
+      content,
+      userId: user.id,
+      userLogin: user.login,
+      addedAt: new Date(),
+      postId,
+    };
+    const result = await commentsService.createComment(newComment);
+    res.send(result);
   }
 );

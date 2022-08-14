@@ -1,5 +1,5 @@
 import { BloggerTypeofDb } from "./../types/bloggersTypes";
-import { bloggersCollection } from "../db";
+import { bloggersCollection } from "../db/db";
 import { BloggerType } from "../types/bloggersTypes";
 import { Query } from "../routes/bloggers/bloggers-route";
 

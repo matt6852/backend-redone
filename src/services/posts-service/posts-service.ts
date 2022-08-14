@@ -1,4 +1,4 @@
-import { PostTypeForDb } from "./../../types/postsTypes";
+import { PostTypeForDb } from "../../types/postsTypes";
 import { PostType } from "../../types/postsTypes";
 import { v4 as uuidv4 } from "uuid";
 import { postsRepository } from "../../repositories/post-repository";
