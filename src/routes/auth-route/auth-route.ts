@@ -4,13 +4,14 @@ import {
   isValidUser,
   userInputValidator,
 } from "../../middlwares/users-middleware/users";
-import { jwtAuthMiddleware } from "../../middlwares/auth/jwt-auth-middlware";
+import { antiDDoSMiddleware } from "../../middlwares/auth/auth-middleware";
 
 export const authRoute = Router({});
 authRoute.post(
   "/login",
   isValidUser,
   userInputValidator,
+  antiDDoSMiddleware,
   async (req: Request, res: Response) => {
     const { login, password } = req.body;
     const loginUser: LoginUserType = {
@@ -21,14 +22,6 @@ authRoute.post(
     console.log(result, "result");
 
     res.send({ data: { result } });
-  }
-);
-authRoute.get(
-  "/test",
-  jwtAuthMiddleware,
-  async (req: Request, res: Response) => {
-    const user = req.user;
-    res.send(user);
   }
 );
 
