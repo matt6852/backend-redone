@@ -1,12 +1,12 @@
 import "dotenv/config";
 import { runDb } from "./db/db";
 import express from "express";
-import { bloggersRouter } from "./routes/bloggers/bloggers-route";
-import { postsRouter } from "./routes/postsroute/posts-router";
-import { userRoute } from "./routes/users/users-router";
-import { authRoute } from "./routes/auth-route/auth-route";
-import { commentsRouter } from "./routes/comments/comments-router";
-import { clearDBrouter } from "./routes/clear-db-route/clear-db-route";
+import { bloggersRouter } from "./routes/bloggers-route";
+import { postsRouter } from "./routes/posts-router";
+import { userRoute } from "./routes/users-router";
+import { authRoute } from "./routes/auth-route";
+import { commentsRouter } from "./routes/comments-router";
+import { clearDBrouter } from "./routes/clear-db-route";
 
 const app = express();
 const port = process.env.PORT || 5001;

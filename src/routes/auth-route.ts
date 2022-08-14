@@ -1,10 +1,7 @@
-import { authService } from "../../services/auth-service/auth-service";
+import { authService } from "../services/auth-service";
 import { Request, Response, Router } from "express";
-import {
-  isValidUser,
-  userInputValidator,
-} from "../../middlwares/users-middleware/users";
-import { antiDDoSMiddleware } from "../../middlwares/auth/auth-middleware";
+import { isValidUser, userInputValidator } from "../middlwares/users";
+import { antiDDoSMiddleware } from "../middlwares/auth-middleware";
 
 export const authRoute = Router({});
 authRoute.post(
@@ -19,7 +16,7 @@ authRoute.post(
       password,
     };
     const result = await authService.login(loginUser);
-    console.log(result, "result");
+    // console.log(result, "result");
 
     res.send({ data: { result } });
   }

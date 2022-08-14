@@ -1,6 +1,6 @@
-import { authJWT } from "./../../application/jwtToken";
+import { authJWT } from "../application/jwtToken";
 import { NextFunction, Request, Response } from "express";
-import { userService } from "../../services/users-service/users-service";
+import { userService } from "../services/users-service";
 
 export const jwtAuthMiddleware = async (
   req: Request,

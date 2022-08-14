@@ -1,5 +1,5 @@
-import { LoginUserType } from "./../routes/auth-route/auth-route";
-import { UserType } from "../services/users-service/users-service";
+import { LoginUserType } from "../routes/auth-route";
+import { UserType } from "../services/users-service";
 import { usersCollection } from "../db/db";
 
 export const usersRepository = {

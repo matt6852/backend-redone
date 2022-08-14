@@ -1,8 +1,8 @@
-import { LoginUserType } from "../../routes/auth-route/auth-route";
-import { userService } from "../users-service/users-service";
+import { LoginUserType } from "../routes/auth-route";
+import { userService } from "./users-service";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { myCryptService } from "../../application/codeAndDecodePassword";
+import { myCryptService } from "../application/codeAndDecodePassword";
 export const authService = {
   async login(loginUser: LoginUserType) {
     const user = await userService.findUser(loginUser);

@@ -1,10 +1,7 @@
 import { Request, Response, Router } from "express";
-import { authBasic } from "../../middlwares/auth/basic-auth-middlware";
-import {
-  isValidUser,
-  userInputValidator,
-} from "../../middlwares/users-middleware/users";
-import { userService } from "../../services/users-service/users-service";
+import { authBasic } from "../middlwares/basic-auth-middlware";
+import { isValidUser, userInputValidator } from "../middlwares/users";
+import { userService } from "../services/users-service";
 export const userRoute = Router();
 userRoute.post(
   "/",

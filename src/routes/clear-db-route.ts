@@ -3,7 +3,7 @@ import {
   commentsCollection,
   postsCollection,
   usersCollection,
-} from "../../db/db";
+} from "../db/db";
 import { Request, Response, Router } from "express";
 
 export const clearDBrouter = Router({});

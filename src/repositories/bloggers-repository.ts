@@ -1,7 +1,7 @@
 import { BloggerTypeofDb } from "./../types/bloggersTypes";
 import { bloggersCollection } from "../db/db";
 import { BloggerType } from "../types/bloggersTypes";
-import { Query } from "../routes/bloggers/bloggers-route";
+import { Query } from "../routes/bloggers-route";
 
 export const bloggerRepository = {
   async createBlogger(blogger: BloggerTypeofDb) {

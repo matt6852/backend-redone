@@ -1,18 +1,15 @@
-import {
-  commentInputValidator,
-  isValidComment,
-} from "./../../middlwares/comments-middleware/comments";
+import { commentInputValidator, isValidComment } from "../middlwares/comments";
 
 import {
   isBloggerExist,
   isValidPost,
   postInputValidator,
-} from "../../middlwares/posts-midleware/posts";
+} from "../middlwares/posts";
 import { Request, Response, Router } from "express";
-import { postsService } from "../../services/posts-service/posts-service";
-import { authBasic } from "../../middlwares/auth/basic-auth-middlware";
-import { jwtAuthMiddleware } from "../../middlwares/auth/jwt-auth-middlware";
-import { commentsService } from "../../services/comments-service/comments-service";
+import { postsService } from "../services/posts-service";
+import { authBasic } from "../middlwares/basic-auth-middlware";
+import { jwtAuthMiddleware } from "../middlwares/jwt-auth-middlware";
+import { commentsService } from "../services/comments-service";
 
 export const postsRouter = Router({});
 

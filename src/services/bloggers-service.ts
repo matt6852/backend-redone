@@ -1,7 +1,7 @@
-import { bloggerRepository } from "../../repositories/bloggers-repository";
-import { BloggerType, BloggerTypeofDb } from "../../types/bloggersTypes";
+import { bloggerRepository } from "../repositories/bloggers-repository";
+import { BloggerType, BloggerTypeofDb } from "../types/bloggersTypes";
 import { v4 as uuidv4 } from "uuid";
-import { Query } from "../../routes/bloggers/bloggers-route";
+import { Query } from "../routes/bloggers-route";
 export const bloggerService = {
   async createBlogger(blogger: BloggerType) {
     const newBlogger = { ...blogger, id: uuidv4() };

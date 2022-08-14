@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { commentsRepository } from "../../repositories/comments-repository";
+import { commentsRepository } from "../repositories/comments-repository";
 
 export const commentsService = {
   async createComment(newComment: any) {

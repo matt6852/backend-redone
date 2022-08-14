@@ -1,9 +1,9 @@
-import { usersCollection } from "../../db/db";
+import { usersCollection } from "../db/db";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-import { Query, usersRepository } from "../../repositories/users-repository";
-import { LoginUserType } from "../../routes/auth-route/auth-route";
-import { myCryptService } from "../../application/codeAndDecodePassword";
+import { Query, usersRepository } from "../repositories/users-repository";
+import { LoginUserType } from "../routes/auth-route";
+import { myCryptService } from "../application/codeAndDecodePassword";
 
 const saltRounds = 10;
 export const userService = {

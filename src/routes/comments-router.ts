@@ -1,10 +1,7 @@
 import { Request, Response, Router } from "express";
-import { jwtAuthMiddleware } from "../../middlwares/auth/jwt-auth-middlware";
-import {
-  commentInputValidator,
-  isValidComment,
-} from "../../middlwares/comments-middleware/comments";
-import { commentsService } from "../../services/comments-service/comments-service";
+import { jwtAuthMiddleware } from "../middlwares/jwt-auth-middlware";
+import { commentInputValidator, isValidComment } from "../middlwares/comments";
+import { commentsService } from "../services/comments-service";
 
 export const commentsRouter = Router({});
 
