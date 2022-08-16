@@ -9,7 +9,7 @@ userRoute.post(
   isValidUser,
   userInputValidator,
   async (req: Request, res: Response) => {
-    const { login, password } = req.body;
+    const { login, password, email } = req.body;
     console.log("user created");
     const result = await userService.createUser({ login, password });
     if (!result) return res.sendStatus(400);

@@ -15,10 +15,29 @@ authRoute.post(
       login,
       password,
     };
-    const result = await authService.login(loginUser);
+    const token = await authService.login(loginUser);
     // console.log(result, "result");
+    if (!token) return res.sendStatus(401);
 
-    res.send({ data: { result } });
+    res.send({ token });
+  }
+);
+authRoute.post(
+  "/login",
+  isValidUser,
+  userInputValidator,
+  antiDDoSMiddleware,
+  async (req: Request, res: Response) => {
+    const { login, password } = req.body;
+    const loginUser: LoginUserType = {
+      login,
+      password,
+    };
+    const token = await authService.login(loginUser);
+    // console.log(result, "result");
+    if (!token) return res.sendStatus(401);
+
+    res.send({ token });
   }
 );
 

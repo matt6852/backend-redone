@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { body, check, validationResult } from "express-validator";
+const regEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export const userInputValidator = (
   req: Request,
@@ -21,5 +22,6 @@ export const userInputValidator = (
 
 export const isValidUser = [
   body("login").isString().isLength({ max: 10, min: 3 }),
+  body("email").matches(regEmail),
   body("password").isString().isLength({ max: 26, min: 6 }),
 ];

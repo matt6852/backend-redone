@@ -6,6 +6,8 @@ import { myCryptService } from "../application/codeAndDecodePassword";
 export const authService = {
   async login(loginUser: LoginUserType) {
     const user = await userService.findUser(loginUser);
+    console.log(user, "user Auth service");
+
     // const match = await bcrypt.compare(loginUser.password, user.hashPassword);
     if (user?._id) {
       const match = await myCryptService.decodePassword(
