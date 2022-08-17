@@ -11,7 +11,7 @@ userRoute.post(
   async (req: Request, res: Response) => {
     const { login, password, email } = req.body;
     console.log("user created");
-    const result = await userService.createUser({ login, password });
+    const result = await userService.createUser({ login, password, email });
     if (!result) return res.sendStatus(400);
     return res.status(201).json(result);
   }

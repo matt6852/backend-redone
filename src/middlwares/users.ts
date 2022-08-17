@@ -25,3 +25,7 @@ export const isValidUser = [
   body("email").matches(regEmail),
   body("password").isString().isLength({ max: 26, min: 6 }),
 ];
+export const isValidUserLogin = [
+  body("login").isString().isLength({ max: 10, min: 3 }),
+  body("password").isString().isLength({ max: 26, min: 6 }),
+];

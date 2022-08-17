@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 app.use(express.json());
+app.set("trust proxy", true);
 
 app.use("/bloggers", bloggersRouter);
 app.use("/posts", postsRouter);

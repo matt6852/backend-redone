@@ -3,7 +3,7 @@ import { UserType } from "../services/users-service";
 import { usersCollection } from "../db/db";
 
 export const usersRepository = {
-  async createUser(user: UserTypeForDB) {
+  async createUser(user: any) {
     const createdUser = await usersCollection.insertOne(user, {
       forceServerObjectId: true,
     });
@@ -16,7 +16,10 @@ export const usersRepository = {
     };
   },
   async findUserFromDB(loginUser: LoginUserType) {
-    const user = await usersCollection.findOne({ login: loginUser.login });
+    const user = await usersCollection.findOne({
+      "accountData.login": loginUser.login,
+    });
+
     return user;
   },
   async getUsers(query: Query) {
@@ -45,6 +48,52 @@ export const usersRepository = {
     const result = await usersCollection.findOne({ id: userId });
     console.log(result, "findOne User");
     return result;
+  },
+  async createUserByEmail(user: any) {
+    const result = await usersCollection.insertOne(user, {
+      forceServerObjectId: true,
+    });
+    console.log(result, "created new User");
+    return user;
+  },
+  async findUserByCode(code: any) {
+    const user = await usersCollection.findOneAndUpdate(
+      { "emailConfirmation.confirmCode": code },
+      { $set: { "emailConfirmation.isConfirmed": true } }
+    );
+
+    if (user) {
+      return user.value;
+    }
+    return null;
+  },
+  async findUserByEmail(email: any) {
+    // console.log(email, "email");
+
+    const result = await usersCollection.findOne(
+      // { "accountData.email": email }
+      {
+        $and: [
+          { "accountData.email": email },
+          { "emailConfirmation.isConfirmed": false },
+        ],
+      }
+    );
+    // console.log(result, "result");
+
+    if (!result) return null;
+    return result;
+  },
+  async resendConfirmCode(newUser: any) {
+    const user = await usersCollection.findOneAndUpdate(
+      { id: newUser.id },
+      { $set: newUser }
+    );
+
+    if (user) {
+      return user.value;
+    }
+    return null;
   },
 };
 

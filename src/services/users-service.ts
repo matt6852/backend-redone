@@ -4,16 +4,29 @@ import { v4 as uuidv4 } from "uuid";
 import { Query, usersRepository } from "../repositories/users-repository";
 import { LoginUserType } from "../routes/auth-route";
 import { myCryptService } from "../application/codeAndDecodePassword";
+import { add } from "date-fns";
 
 const saltRounds = 10;
 export const userService = {
   async createUser(user: UserType) {
-    const { login, password } = user;
+    const { login, password, email } = user;
     const hashPassword = await myCryptService.codePassword(password);
     const newUser = {
-      login,
-      hashPassword,
       id: uuidv4(),
+      accountData: {
+        login,
+        email: email,
+        password: hashPassword,
+        createdAt: new Date(),
+      },
+      emailConfirmation: {
+        confirmCode: uuidv4(),
+        expirationDate: add(new Date(), {
+          hours: 1,
+          minutes: 3,
+        }),
+        isConfirmed: true,
+      },
     };
     const result = await usersRepository.createUser(newUser);
     return result;
@@ -41,6 +54,7 @@ export const userService = {
 export type UserType = {
   login: string;
   password: string;
+  email: string;
 };
 // export type UserTypeFromDb = {
 //   login: string;
