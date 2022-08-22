@@ -22,6 +22,16 @@ export const usersRepository = {
 
     return user;
   },
+  async findUserByEmailOrLogin(findUser: LoginUserType) {
+    const user = await usersCollection.findOne({
+      $or: [
+        { "accountData.email": findUser.email },
+        { "accountData.login": findUser.login },
+      ],
+    });
+
+    return user;
+  },
   async getUsers(query: Query) {
     const { PageNumber = 1, PageSize = 10 } = query;
     const allUsers = await usersCollection

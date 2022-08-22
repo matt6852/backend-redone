@@ -93,4 +93,9 @@ export const authService = {
       return null;
     }
   },
+  async isUserExists(user: any) {
+    const result: any = await usersRepository.findUserByEmailOrLogin(user);
+    // console.log(result);
+    return result;
+  },
 };

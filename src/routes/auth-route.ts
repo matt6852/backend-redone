@@ -6,6 +6,7 @@ import {
   userInputValidator,
 } from "../middlwares/users";
 import { antiDDoSMiddleware } from "../middlwares/auth-middleware";
+import { is } from "date-fns/locale";
 
 export const authRoute = Router({});
 authRoute.post(
@@ -39,6 +40,46 @@ authRoute.post(
       password,
       email,
     };
+    const isExists = await authService.isUserExists({ login, email, password });
+    // console.log(isExists, "is exists");
+    if (isExists) {
+      if (
+        isExists.accountData.email === email &&
+        isExists.accountData.login === login
+      )
+        return res.send({
+          errorsMessages: [
+            {
+              message: "Invalid value",
+              field: "login",
+            },
+            {
+              message: "Invalid value",
+              field: "email",
+            },
+          ],
+        });
+      if (isExists.accountData.login === login)
+        return res.send({
+          errorsMessages: [
+            {
+              message: "Invalid value",
+              field: "login",
+            },
+          ],
+        });
+      if (isExists.accountData.login === email)
+        return res.send({
+          errorsMessages: [
+            {
+              message: "Invalid value",
+              field: "email",
+            },
+          ],
+        });
+    }
+
+    // if (isExists.accountData.login === "login") return;
     const result = await authService.registrationUser(regUser);
     if (result) return res.sendStatus(204);
   }
