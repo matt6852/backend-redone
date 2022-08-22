@@ -46,7 +46,7 @@ export const userService = {
     return result;
   },
   async findUserById(id: string) {
-    const result: any = await usersRepository.findUserByIdUserFromDB(id);
+    const result = await usersRepository.findUserByIdUserFromDB(id);
     return result;
   },
 };

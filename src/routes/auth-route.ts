@@ -41,7 +41,7 @@ authRoute.post(
       email,
     };
     const isExists = await authService.isUserExists({ login, email, password });
-    // console.log(isExists, "is exists");
+    console.log(isExists, "is exists");
     if (isExists) {
       if (
         isExists.accountData.email === email &&
@@ -68,7 +68,7 @@ authRoute.post(
             },
           ],
         });
-      if (isExists.accountData.login === email)
+      if (isExists.accountData.email === email)
         return res.status(400).send({
           errorsMessages: [
             {
