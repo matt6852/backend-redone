@@ -47,7 +47,7 @@ authRoute.post(
         isExists.accountData.email === email &&
         isExists.accountData.login === login
       )
-        return res.send({
+        return res.status(400).send({
           errorsMessages: [
             {
               message: "Invalid value",
@@ -60,7 +60,7 @@ authRoute.post(
           ],
         });
       if (isExists.accountData.login === login)
-        return res.send({
+        return res.status(400).send({
           errorsMessages: [
             {
               message: "Invalid value",
@@ -69,7 +69,7 @@ authRoute.post(
           ],
         });
       if (isExists.accountData.login === email)
-        return res.send({
+        return res.status(400).send({
           errorsMessages: [
             {
               message: "Invalid value",
@@ -90,7 +90,7 @@ authRoute.post(
   async (req: Request, res: Response) => {
     const { code } = req.query;
     if (!code) {
-      return res.send({
+      return res.status(400).send({
         errorsMessages: [
           {
             message: "Invalid value",
