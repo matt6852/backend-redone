@@ -82,7 +82,7 @@ postsRouter.get("/:postId/comments", async (req: Request, res: Response) => {
   const singlePost = await postsService.getSinglePost(postId);
   if (!singlePost) return res.sendStatus(404);
   const result = await commentsService.getComments(postId, query);
-  return res.status(201).send(result);
+  return res.status(200).send(result);
 });
 postsRouter.post(
   "/:postId/comments",
