@@ -75,7 +75,7 @@ export const usersRepository = {
       },
       { $set: { "emailConfirmation.isConfirmed": true } }
     );
-    console.log(user, "from repo");
+    // console.log(user, "from repo");
 
     if (user) {
       return user.value;
