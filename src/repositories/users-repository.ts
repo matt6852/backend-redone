@@ -69,7 +69,7 @@ export const usersRepository = {
     const user = await usersCollection.findOneAndUpdate(
       {
         $and: [
-          { "accountData.email": code },
+          { "emailConfirmation.confirmCode": code },
           { "emailConfirmation.isConfirmed": false },
         ],
       },
