@@ -11,8 +11,8 @@ export const commentsService = {
     const result = await commentsRepository.createComment(commentWithId);
     return {
       content: result.result,
-      userId: result.user.id,
-      userLogin: result.user.accountData.login,
+      userId: result.userId,
+      userLogin: result.login,
       addedAt: new Date(),
       id: result.id,
     };
