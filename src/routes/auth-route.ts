@@ -66,7 +66,7 @@ authRoute.post(
         errorsMessages: [
           {
             message: "Invalid value",
-            field: "email",
+            field: "code",
           },
         ],
       });
@@ -80,7 +80,7 @@ authRoute.post(
         errorsMessages: [
           {
             message: "Invalid value",
-            field: "email",
+            field: "code",
           },
         ],
       });
