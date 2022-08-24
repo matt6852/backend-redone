@@ -93,7 +93,6 @@ postsRouter.post(
     const { postId } = req.params;
     const { content } = req.body;
     const user = req.user;
-    console.log(user, "user");
 
     if (!user) return res.sendStatus(403);
     const singlePost = await postsService.getSinglePost(postId);
@@ -103,11 +102,11 @@ postsRouter.post(
       userId: user.id,
       userLogin: user.accountData.login,
       addedAt: new Date(),
-      // postId,
+      postId,
     };
     // console.log(newComment, "newComment");
 
     const result = await commentsService.createComment(newComment);
-    return res.status(201).send();
+    return res.status(201).send(result);
   }
 );

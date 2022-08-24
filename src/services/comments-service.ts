@@ -9,7 +9,13 @@ export const commentsService = {
     };
 
     const result = await commentsRepository.createComment(commentWithId);
-    return result;
+    return {
+      content: result.result,
+      userId: result.user.id,
+      userLogin: result.user.accountData.login,
+      addedAt: new Date(),
+      id: result.id,
+    };
   },
   async getComments(id: string, query: any) {
     const result = await commentsRepository.getComments(id, query);
