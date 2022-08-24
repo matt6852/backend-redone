@@ -28,7 +28,7 @@ authRoute.post(
     // console.log(result, "result");
     if (!token) return res.sendStatus(401);
 
-    res.status(200).send({ token });
+    return res.status(200).send({ token });
   }
 );
 authRoute.post(

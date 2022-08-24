@@ -82,7 +82,7 @@ postsRouter.get("/:postId/comments", async (req: Request, res: Response) => {
   const singlePost = await postsService.getSinglePost(postId);
   if (!singlePost) return res.sendStatus(404);
   const result = await commentsService.getComments(postId, query);
-  res.send(result);
+  return res.status(201).send(result);
 });
 postsRouter.post(
   "/:postId/comments",
@@ -103,6 +103,6 @@ postsRouter.post(
       postId,
     };
     const result = await commentsService.createComment(newComment);
-    res.send(result);
+    return res.status(201).send(result);
   }
 );

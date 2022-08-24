@@ -31,7 +31,7 @@ commentsRouter.get("/:commentId", async (req: Request, res: Response) => {
   const { commentId } = req.params;
   const comment = await commentsService.findCommentById(commentId);
   if (!comment) return res.sendStatus(404);
-  return res.send(comment);
+  return res.status(200).send(comment);
 });
 commentsRouter.delete(
   "/:commentId",
