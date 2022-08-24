@@ -12,6 +12,7 @@ commentsRouter.put(
   commentInputValidator,
   async (req: Request, res: Response) => {
     const user = req.user;
+    if (!user) return res.sendStatus(403);
     const { commentId } = req.params;
     const { content } = req.body;
     const comment = await commentsService.findCommentById(commentId);
