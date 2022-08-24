@@ -29,7 +29,6 @@ export const usersRepository = {
         { "accountData.login": findUser.login },
       ],
     });
-
     return user;
   },
   async getUsers(query: Query) {
@@ -68,9 +67,15 @@ export const usersRepository = {
   },
   async findUserByCode(code: any) {
     const user = await usersCollection.findOneAndUpdate(
-      { "emailConfirmation.confirmCode": code },
+      {
+        $and: [
+          { "accountData.email": code },
+          { "emailConfirmation.isConfirmed": false },
+        ],
+      },
       { $set: { "emailConfirmation.isConfirmed": true } }
     );
+    console.log(user, "from repo");
 
     if (user) {
       return user.value;

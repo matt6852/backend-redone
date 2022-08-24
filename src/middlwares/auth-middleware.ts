@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { authService } from "../services/auth-service";
 
 type HackerType = {
   ip: string;
@@ -33,4 +34,51 @@ export const antiDDoSMiddleware = async (
   hackersArr.push({ date: Date.now(), ip, url: clientUri });
 
   next();
+};
+
+export const isLoginOrEmailExists = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { login, password, email } = req.body;
+  const isExists = await authService.isUserExists({ login, email, password });
+  if (isExists) {
+    if (
+      isExists.accountData.email === email &&
+      isExists.accountData.login === login
+    )
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "login",
+          },
+          {
+            message: "Invalid value",
+            field: "email",
+          },
+        ],
+      });
+    if (isExists.accountData.login === login)
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "login",
+          },
+        ],
+      });
+    if (isExists.accountData.email === email)
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "email",
+          },
+        ],
+      });
+  } else {
+    return next();
+  }
 };
