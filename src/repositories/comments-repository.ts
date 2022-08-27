@@ -49,15 +49,15 @@ export const commentsRepository = {
     try {
       const comments = await commentsCollection
         .find({ postId: id }, { projection: { _id: 0, postId: 0 } })
-        .skip(+PageSize * (+PageNumber! - 1))
+        .skip(+PageSize * (+PageNumber - 1))
         .limit(+PageSize)
         .toArray();
       const totalCount = await commentsCollection.countDocuments({});
       const result = {
-        pagesCount: Math.ceil(+totalCount / PageSize!),
-        page: PageNumber,
-        pageSize: PageSize,
-        totalCount: totalCount - 1,
+        pagesCount: Math.ceil(+totalCount / +PageSize),
+        page: +PageNumber,
+        pageSize: +PageSize,
+        totalCount: totalCount,
         items: comments,
       };
 
