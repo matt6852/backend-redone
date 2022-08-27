@@ -57,7 +57,7 @@ export const commentsRepository = {
         pagesCount: Math.ceil(+totalCount / +PageSize),
         page: +PageNumber,
         pageSize: +PageSize,
-        totalCount: totalCount,
+        totalCount: totalCount - 1,
         items: comments,
       };
 
