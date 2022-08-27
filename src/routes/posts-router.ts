@@ -79,6 +79,7 @@ postsRouter.delete(
 postsRouter.get("/:postId/comments", async (req: Request, res: Response) => {
   const { postId } = req.params;
   const query = req.query;
+
   const singlePost = await postsService.getSinglePost(postId);
   if (!singlePost) return res.sendStatus(404);
   const result = await commentsService.getComments(postId, query);

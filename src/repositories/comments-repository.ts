@@ -54,10 +54,10 @@ export const commentsRepository = {
         .toArray();
       const totalCount = await commentsCollection.countDocuments();
       const result = {
-        pagesCount: Math.ceil(+totalCount / +PageSize),
+        pagesCount: Math.ceil((+totalCount - 1) / +PageSize),
         page: +PageNumber,
         pageSize: +PageSize,
-        totalCount: totalCount,
+        totalCount: +totalCount - 1,
         items: comments,
       };
 

@@ -22,9 +22,9 @@ export const postsRepository = {
         .toArray();
       const totalCount = await postsCollection.countDocuments({});
       const result = {
-        pagesCount: Math.ceil(+totalCount / PageSize!),
-        page: PageNumber,
-        pageSize: PageSize,
+        pagesCount: Math.ceil(+totalCount / +PageSize!),
+        page: +PageNumber,
+        pageSize: +PageSize,
         totalCount,
         items: allPosts,
       };
