@@ -58,7 +58,7 @@ authRoute.post(
   async (req: Request, res: Response) => {
     const codeFromBody = req.body.code;
     const result = await authService.confirmEmail(codeFromBody);
-    console.log(result, "result");
+    // console.log(result, "result");
     if (!result) {
       return res.status(400).send({
         errorsMessages: [
