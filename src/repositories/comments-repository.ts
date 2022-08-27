@@ -48,7 +48,7 @@ export const commentsRepository = {
 
     try {
       const comments = await commentsCollection
-        .find({ postId: id }, { projection: { _id: 0 } })
+        .find({ postId: id }, { projection: { _id: 0, postId: 0 } })
         .skip(+PageSize * (+PageNumber! - 1))
         .limit(+PageSize)
         .toArray();

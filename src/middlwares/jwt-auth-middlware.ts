@@ -15,7 +15,6 @@ export const jwtAuthMiddleware = async (
     console.log(token, "error here");
 
     const { userId } = authJWT.checkJWT(token);
-    console.log(userId, "userId");
     if (userId) {
       req.user = await userService.findUserById(userId);
       return next();

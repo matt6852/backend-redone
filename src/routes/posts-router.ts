@@ -82,6 +82,8 @@ postsRouter.get("/:postId/comments", async (req: Request, res: Response) => {
   const singlePost = await postsService.getSinglePost(postId);
   if (!singlePost) return res.sendStatus(404);
   const result = await commentsService.getComments(postId, query);
+  // console.log(result, "result");
+
   return res.status(200).send(result);
 });
 postsRouter.post(
@@ -107,6 +109,7 @@ postsRouter.post(
     // console.log(newComment, "newComment");
 
     const result = await commentsService.createComment(newComment);
+
     return res.status(201).send(result);
   }
 );
