@@ -52,10 +52,12 @@ export const commentsRepository = {
         .skip(+PageSize * (+PageNumber - 1))
         .limit(+PageSize)
         .toArray();
-      const totalCount = await commentsCollection.estimatedDocumentCount();
-      const countDocuments = await commentsCollection.countDocuments();
+      // const totalCount = await commentsCollection.estimatedDocumentCount();
+      const totalCount = await commentsCollection.countDocuments({
+        postId: id,
+      });
       console.log(totalCount, "estimatedDocumentCount");
-      console.log(countDocuments, "countDocuments");
+      // console.log(countDocuments, "countDocuments");
 
       const result = {
         pagesCount: Math.ceil(+totalCount / +PageSize),
