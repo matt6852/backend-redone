@@ -56,49 +56,21 @@ authRoute.post(
   userInputValidator,
   antiDDoSMiddleware,
   async (req: Request, res: Response) => {
-    // const { code } = req.query;
     const codeFromBody = req.body.code;
-    // console.log(code, "code");
-    // console.log(codeFromBody, "codeFromBody");
-    // // if (code) {
-    //   const result = await authService.confirmEmail(code);
-    //   console.log(result, "result");
-
-    //   if (result) return res.sendStatus(204);
-    //   return res.status(400).send({
-    //     errorsMessages: [
-    //       {
-    //         message: "Invalid value",
-    //         field: "code",
-    //       },
-    //     ],
-    //   });
-    // }
-    if (codeFromBody) {
-      const result = await authService.confirmEmail(codeFromBody);
-      console.log(result, "result");
-
-      if (result) return res.sendStatus(204);
-      // return res.status(400).send({
-      //   errorsMessages: [
-      //     {
-      //       message: "Invalid value",
-      //       field: "code",
-      //     },
-      //   ],
-      // });
+    const result = await authService.confirmEmail(codeFromBody);
+    console.log(result, "result");
+    if (!result) {
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "code",
+          },
+        ],
+      });
     }
 
-    // if (!code && !codeFromBody) {
-    //   return res.status(400).send({
-    //     errorsMessages: [
-    //       {
-    //         message: "Invalid value",
-    //         field: "code",
-    //       },
-    //     ],
-    //   });
-    // }
+    return res.sendStatus(204);
   }
 );
 authRoute.post(
