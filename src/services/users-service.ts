@@ -29,6 +29,8 @@ export const userService = {
       },
     };
     const result = await usersRepository.createUser(newUser);
+    console.log(result, "result");
+
     return result;
 
     // const match = await bcrypt.compare(password, hashPassword); compare password from DB

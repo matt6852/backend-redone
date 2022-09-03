@@ -10,9 +10,11 @@ export const usersRepository = {
     if (!createdUser.acknowledged) {
       return null;
     }
+    console.log(user, "user");
+
     return {
       id: user.id,
-      login: user.login,
+      login: user.accountData.login,
     };
   },
   async findUserFromDB(loginUser: LoginUserType) {

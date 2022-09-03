@@ -13,7 +13,6 @@ export const jwtAuthMiddleware = async (
     }
     const token = req.headers.authorization.split(" ")[1];
     console.log(token, "error here");
-
     const { userId } = authJWT.checkJWT(token);
     if (userId) {
       req.user = await userService.findUserById(userId);
@@ -21,7 +20,6 @@ export const jwtAuthMiddleware = async (
     }
   } catch (error) {
     console.log(error);
-
     res.sendStatus(401);
   }
 };
