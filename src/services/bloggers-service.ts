@@ -1,33 +1,35 @@
-import { bloggerRepository } from "../repositories/bloggers-repository";
+import { BloggersRepository } from "../repositories/bloggers-repository";
 import { BloggerType, BloggerTypeofDb } from "../types/bloggersTypes";
 import { v4 as uuidv4 } from "uuid";
-import { Query } from "../routes/bloggers-route";
-export const bloggerService = {
+
+export class BloggerService {
+  public bloggerRepository;
+  constructor() {
+    this.bloggerRepository = new BloggersRepository();
+  }
   async createBlogger(blogger: BloggerType) {
     const newBlogger = { ...blogger, id: uuidv4() };
-    const result = await bloggerRepository.createBlogger(newBlogger);
+    const result = await this.bloggerRepository.createBlogger(newBlogger);
     return result;
-  },
+  }
   async getAllBloggers(query: any) {
-    const allBloggers = await bloggerRepository.getAllBloggerFromDB(query);
+    const allBloggers = await this.bloggerRepository.getAllBloggerFromDB(query);
     return allBloggers;
-  },
+  }
   async getSingleBlogger(bloggerId: any) {
-    const singleBlogger = await bloggerRepository.getSingleBloggerFromDB(
+    const singleBlogger = await this.bloggerRepository.getSingleBloggerFromDB(
       bloggerId
     );
     return singleBlogger;
-  },
+  }
   async deleteSingleBlogger(bloggerId: any) {
-    const deleteBlogger = await bloggerRepository.deleteSingleBloggerFromDB(
-      bloggerId
-    );
+    const deleteBlogger =
+      await this.bloggerRepository.deleteSingleBloggerFromDB(bloggerId);
     return deleteBlogger;
-  },
+  }
   async updateBlogger(updateBlogger: BloggerTypeofDb) {
-    const updatedBlogger = await bloggerRepository.updateSingleBloggerFromDB(
-      updateBlogger
-    );
+    const updatedBlogger =
+      await this.bloggerRepository.updateSingleBloggerFromDB(updateBlogger);
     return updatedBlogger;
-  },
-};
+  }
+}

@@ -1,9 +1,8 @@
 import { BloggerTypeofDb } from "./../types/bloggersTypes";
 import { bloggersCollection } from "../db/db";
-import { BloggerType } from "../types/bloggersTypes";
 import { Query } from "../routes/bloggers-route";
 
-export const bloggerRepository = {
+export class BloggersRepository {
   async createBlogger(blogger: BloggerTypeofDb) {
     try {
       await bloggersCollection.insertOne(blogger, {
@@ -13,7 +12,7 @@ export const bloggerRepository = {
     } catch (error) {
       return null;
     }
-  },
+  }
   async getAllBloggerFromDB(query: Query) {
     const { SearchNameTerm, PageNumber = 1, PageSize = 10 } = query;
     const searchQuery: any = {};
@@ -38,7 +37,7 @@ export const bloggerRepository = {
     } catch (error) {
       return null;
     }
-  },
+  }
   async getSingleBloggerFromDB(bloggerId: string) {
     try {
       const singleBlogger = await bloggersCollection.findOne({ id: bloggerId });
@@ -46,7 +45,7 @@ export const bloggerRepository = {
     } catch (error) {
       return null;
     }
-  },
+  }
   async deleteSingleBloggerFromDB(bloggerId: string) {
     try {
       const deleteBlogger = await bloggersCollection.deleteOne({
@@ -58,7 +57,7 @@ export const bloggerRepository = {
     } catch (error) {
       return null;
     }
-  },
+  }
   async updateSingleBloggerFromDB(updateBlogger: BloggerTypeofDb) {
     try {
       const result = await bloggersCollection.findOneAndUpdate(
@@ -74,5 +73,5 @@ export const bloggerRepository = {
     } catch (error) {
       return null;
     }
-  },
-};
+  }
+}
