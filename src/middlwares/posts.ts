@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { body, check, validationResult } from "express-validator";
-import { bloggerService } from "../../services/blogger-service";
+import { bloggerService } from "../services/bloggers-service";
 
 export const postInputValidator = (
   req: Request,
@@ -38,6 +38,24 @@ export const isValidPost = [
     .isEmpty()
     .bail(),
   body("bloggerId").not().isEmpty().bail(),
+];
+export const isValidPostForSingleBlogger = [
+  body("title").isString().isLength({ max: 30 }).trim().not().isEmpty().bail(),
+  body("shortDescription")
+    .isString()
+    .isLength({ max: 100 })
+    .trim()
+    .not()
+    .isEmpty()
+    .bail(),
+  body("content")
+    .isString()
+    .isLength({ max: 1000 })
+    .trim()
+    .not()
+    .isEmpty()
+    .bail(),
+  // body("bloggerId").not().isEmpty().bail(),
 ];
 
 export const isBloggerExist = async (

@@ -1,7 +1,7 @@
-import { PostTypeForDb } from "./../../types/postsTypes";
-import { PostType } from "../../types/postsTypes";
+import { PostTypeForDb } from "../types/postsTypes";
+import { PostType } from "../types/postsTypes";
 import { v4 as uuidv4 } from "uuid";
-import { postsRepository } from "../../repositories/post-repository";
+import { postsRepository } from "../repositories/post-repository";
 
 export const postsService = {
   async createPost(post: PostType) {
@@ -12,8 +12,15 @@ export const postsService = {
     const result = await postsRepository.createPost(postForDb);
     return result;
   },
-  async getAllPosts() {
-    const allPosts = await postsRepository.getAllPostsFromDb();
+  async getAllPosts(query: any) {
+    const allPosts = await postsRepository.getAllPostsFromDb(query);
+    return allPosts;
+  },
+  async getAllBloggerPosts(bloggerId: string, query: any) {
+    const allPosts = await postsRepository.getAllBloggersPostsFromDb(
+      bloggerId,
+      query
+    );
     return allPosts;
   },
   async getSinglePost(postId: string) {
